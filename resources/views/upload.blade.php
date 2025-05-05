@@ -47,7 +47,7 @@
             @if (session("stored_paths") && is_array(session("stored_paths")))
                 <div class="mt-4">
                     <p>Uploaded Files:</p>
-                     {{-- Lặp qua array các đường dẫn file đã lưu. $index là chỉ số, $path là đường dẫn --}}
+                    {{-- Lặp qua array các đường dẫn file đã lưu. $index là chỉ số, $path là đường dẫn --}}
                     @foreach (session("stored_paths") as $index => $path)
                         <div class="border p-4 mt-2">
                             <p class="text-sm text-gray-600">Original Filename:
@@ -60,6 +60,27 @@
                     @endforeach
                 </div>
             @endif
+        </div>
+    @endif
+
+    @if (count($uploads) > 0)
+        <div class="container mx-auto mt-10 p-10 bg-white rounded-lg shadow-md max-w-md">
+            @foreach ($uploads as $upload)
+                <li class="flex items-center justify-between mb-4">
+                    <a class="flex items-center gap-4 py-2" href="{{ $upload->filename }}" target="_blank">
+                        <img src="{{ $upload->filename }}" alt="{{ $upload->filename }}" width="50" height="50">
+                        <span>{{ $upload->original_filename }}</span>
+                    </a>
+                    <form action="{{ route("upload.destroy", $upload->id) }}"
+                        method="POST"
+                        style="display:inline;"
+                        onsubmit="return confirm('Are you sure you want to delete this file?');">
+                        @csrf
+                        @method("DELETE")
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                    </form>
+                </li>
+            @endforeach
         </div>
     @endif
 

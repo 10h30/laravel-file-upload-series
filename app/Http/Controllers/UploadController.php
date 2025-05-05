@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,7 +15,8 @@ class UploadController extends Controller
      */
     public function index()
     {
-        return view('upload');
+        $uploads = Upload::latest()->get();
+        return view('upload', compact('uploads'));
     }
 
     /**
@@ -65,8 +67,14 @@ class UploadController extends Controller
             // Lưu file bằng storeAs với tên file mới
             $storedFilePath = $file->storeAs($directory, $finalFilename, $disk); // Trả về đường dẫn tương đối: 'uploads/ten_file_cuoi_cung.jpg'
             $storedFilePaths[] = $storedFilePath; // Thêm đường dẫn file đã lưu vào array $storedFilePaths
-        }
 
+            // Tạo bản ghi mới trong table uploads của database
+            Upload::create([
+                'filename' => $storedFilePath,
+                'original_filename' => $originalFilename,
+            ]);
+
+        }
 
         // Chuyển hướng về trang trước đó
         return back()->with('success', 'You have successfully uploaded ' . $numberOfFiles . ' files')
@@ -74,5 +82,17 @@ class UploadController extends Controller
             ->with('stored_paths', $storedFilePaths)
             // Gửi kèm array các tên file gốc vào session flash data với key 'original_filenames'
             ->with('original_filenames', $originalFilenames);
+    }
+
+    public function destroy(Upload $upload)
+    {
+        // Xoá file vật lý khỏi disk 'public' dựa vào đường dẫn lưu trong $upload->filename
+        Storage::disk('public')->delete($upload->filename);
+
+        // Xoá bản ghi tương ứng trong database
+        $upload->delete();
+
+        // Chuyển hướng người dùng về trang trước đó với thông báo thành công
+        return back()->with('success', 'You have successfully deleted ' . $upload->original_filename);
     }
 }
