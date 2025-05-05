@@ -19,8 +19,8 @@
         <form action="{{ route("upload.store") }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             <div>
-                <label for="file" class="block text-sm font-medium text-gray-700 mb-1">Choose file</label>
-                <input type="file" name="file" id="file"
+                <label for="files" class="block text-sm font-medium text-gray-700 mb-1">Choose files</label>
+                <input type="file" name="files[]" id="files" multiple
                     class="block w-full text-sm text-gray-500
                               file:mr-4 file:py-2 file:px-4
                               file:rounded-full file:border-0
@@ -42,12 +42,22 @@
             <p class="font-bold">Success!</p>
             <p>{{ session("success") }}</p>
 
-            @if (session("stored_path"))
+            {{-- Kiểm tra xem session có chứa 'stored_paths' (mảng đường dẫn các file đã lưu)
+                 và giá trị đó có phải là một mảng hợp lệ không --}}
+            @if (session("stored_paths") && is_array(session("stored_paths")))
                 <div class="mt-4">
-                    <p class="text-sm text-gray-600">Original Filename: {{ session("original_filename", "N/A") }}</p>
-                    <p class="text-sm text-gray-600">Stored Path: {{ session("stored_path") }}</p>
-                    <img src="{{ session("stored_path") }}" alt="Uploaded Image"
-                        class="mt-2 rounded max-w-full h-auto border">
+                    <p>Uploaded Files:</p>
+                     {{-- Lặp qua array các đường dẫn file đã lưu. $index là chỉ số, $path là đường dẫn --}}
+                    @foreach (session("stored_paths") as $index => $path)
+                        <div class="border p-4 mt-2">
+                            <p class="text-sm text-gray-600">Original Filename:
+                                {{ session("original_filenames")[$index] }}
+                            </p>
+                            <p class="text-sm text-gray-600">Stored Path: {{ $path }}</p>
+                            <img src="{{ $path }}" alt="Uploaded Image {{ $index + 1 }}"
+                                class="mt-2 rounded max-w-full h-auto border">
+                        </div>
+                    @endforeach
                 </div>
             @endif
         </div>

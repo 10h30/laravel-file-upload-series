@@ -8,6 +8,7 @@
 | ---- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | 1    | File Upload cơ bản trong Laravel | [`part-1-basic-upload`](https://github.com/10h30/laravel-file-upload-series/tree/part-1-basic-upload)               |
 | 2    | Validation & Bảo mật khi upload  | [`part-2-validation-security`](https://github.com/10h30/laravel-file-upload-series/tree/part-2-validation-security) |
+| 3    | Upload cùng lúc nhiều file       | [`part-3-multiple-file-upload`](https://github.com/10h30/laravel-file-upload-series/tree/part-3-multiple-file-upload) |
 |      |
 
 > 📖 Mỗi branch tương ứng với một phần trong series blog. Bạn có thể clone và chạy từng phần riêng biệt để dễ theo dõi.

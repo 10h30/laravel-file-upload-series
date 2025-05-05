@@ -27,33 +27,31 @@ class UploadController extends Controller
     {
         // Kiểm tra request có chứa file không? và có dáp ứng các yêu cầu không
         $request->validate([
-            'file' => 'required|image|mimes:jpg,jpeg|dimensions:max_width=600,min_height=100,max:2048', // max = 2MB
+            'files' => 'required|array', // Tên input là 'files[]' trong HTML
+            'files.*' => 'required|image|mimes:jpg,jpeg,png|max:2048', // max = 2MB mỗi file
         ]);
 
         // Tạo biến mới để lưu đường dẫn và tên file gốc
-        $storedFilePath = null;
-        $originalFilename = null;
+        $storedFilePaths = []; // Array lưu đường dẫn các file đã lưu thành công
+        $originalFilenames = []; // Array lưu tên gốc của các file
+        $uploadedFiles = $request->file('files'); // Lấy array các đối tượng file đã upload
+        $numberOfFiles = count($uploadedFiles); // Đếm số lượng file đã upload
 
-        // Kiểm tra xem request có chứa file với tên là 'file' không
-        if ($request->hasFile('file')) {
-            // Lấy đối tượng file từ request
-            $file = $request->file('file');
+
+        // Lặp qua từng file trong array $uploadedFiles
+        foreach ($uploadedFiles as $file) {
+
             // Lấy tên file gốc từ client
             $originalFilename = $file->getClientOriginalName();
+            $originalFilenames[] = $originalFilename; // Thêm tên gốc vào array
 
-            /*
-            // Lưu file vào thư mục 'uploads' trên disk 'public' (thường là storage/app/public/uploads)
-            // Laravel sẽ tự động tạo tên file duy nhất để tránh ghi đè
-            // Phương thức store() trả về đường dẫn tương đối của file đã lưu (ví dụ: 'uploads/ten_file_duy_nhat.jpg')
-            $storedFilePath = $file->store('uploads', 'public'); */
-
-            // 3. Chuẩn bị các phần của tên file
+            // Chuẩn bị các phần của tên file
             $filenameWithoutExtension = pathinfo($originalFilename, PATHINFO_FILENAME); // Lấy tên file không có phần mở rộng
             $extension = $file->getClientOriginalExtension(); // Lấy phần mở rộng
             $directory = 'uploads'; // Thư mục lưu file trên disk
-            $disk = 'public'; // Disk sẽ sử dụng (được định nghĩa trong config/filesystems.php)
+            $disk = 'public'; // Disk public sẽ sử dụng (được định nghĩa trong config/filesystems.php)
 
-            // 4. Xác định tên file duy nhất
+            // Xác định tên file duy nhất
             $finalFilename = $originalFilename; // Bắt đầu với tên gốc
             $counter = 1;
 
@@ -64,15 +62,17 @@ class UploadController extends Controller
                 $counter++;
             }
 
-            // 5. Lưu file bằng storeAs với tên file mới
+            // Lưu file bằng storeAs với tên file mới
             $storedFilePath = $file->storeAs($directory, $finalFilename, $disk); // Trả về đường dẫn tương đối: 'uploads/ten_file_cuoi_cung.jpg'
+            $storedFilePaths[] = $storedFilePath; // Thêm đường dẫn file đã lưu vào array $storedFilePaths
         }
 
+
         // Chuyển hướng về trang trước đó
-        return back()->with('success', 'File uploaded successfully')
-            // Gửi kèm đường dẫn file đã lưu vào session flash data
-            ->with('stored_path', $storedFilePath)
-            // Gửi kèm tên file gốc vào session flash data
-            ->with('original_filename', $originalFilename);
+        return back()->with('success', 'You have successfully uploaded ' . $numberOfFiles . ' files')
+            // Gửi kèm array các đường dẫn file đã lưu vào session flash data với key 'stored_paths'
+            ->with('stored_paths', $storedFilePaths)
+            // Gửi kèm array các tên file gốc vào session flash data với key 'original_filenames'
+            ->with('original_filenames', $originalFilenames);
     }
 }
