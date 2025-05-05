@@ -25,6 +25,11 @@ class UploadController extends Controller
      */
     public function store(Request $request)
     {
+        // Kiểm tra request có chứa file không? và có dáp ứng các yêu cầu không
+        $request->validate([
+            'file' => 'required|image|mimes:jpg,jpeg|dimensions:max_width=600,min_height=100,max:2048', // max = 2MB
+        ]);
+
         // Tạo biến mới để lưu đường dẫn và tên file gốc
         $storedFilePath = null;
         $originalFilename = null;
