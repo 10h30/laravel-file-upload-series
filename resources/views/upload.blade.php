@@ -65,21 +65,24 @@
 
     @if (count($uploads) > 0)
         <div class="container mx-auto mt-10 p-10 bg-white rounded-lg shadow-md max-w-md">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Previously Uploaded Files:</h2>
             @foreach ($uploads as $upload)
-                <li class="flex items-center justify-between mb-4">
-                    <a class="flex items-center gap-4 py-2" href="{{ $upload->filename }}" target="_blank">
-                        <img src="{{ $upload->filename }}" alt="{{ $upload->filename }}" width="50" height="50">
-                        <span>{{ $upload->original_filename }}</span>
-                    </a>
-                    <form action="{{ route("upload.destroy", $upload->id) }}"
-                        method="POST"
-                        style="display:inline;"
-                        onsubmit="return confirm('Are you sure you want to delete this file?');">
-                        @csrf
-                        @method("DELETE")
-                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-                    </form>
-                </li>
+                <ul>
+                    <li class="flex items-center justify-between mb-4">
+                        <a class="flex items-center gap-4 py-2" href="{{ $upload->url }}" target="_blank">
+                            <img src="{{ $upload->url }}" alt="{{ $upload->original_filename }}" width="50" height="50">
+                            <span class="text-sm text-gray-700 hover:text-blue-600">{{ $upload->original_filename }}</span>
+                        </a>
+                        <form action="{{ route("upload.destroy", $upload->id) }}" method="POST"
+                            style="display:inline;"
+                            onsubmit="return confirm('Are you sure you want to delete this file?');">
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+                        </form>
+                    </li>
+                </ul>
             @endforeach
         </div>
     @endif

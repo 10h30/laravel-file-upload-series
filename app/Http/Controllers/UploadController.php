@@ -51,7 +51,7 @@ class UploadController extends Controller
             $filenameWithoutExtension = pathinfo($originalFilename, PATHINFO_FILENAME); // Lấy tên file không có phần mở rộng
             $extension = $file->getClientOriginalExtension(); // Lấy phần mở rộng
             $directory = 'uploads'; // Thư mục lưu file trên disk
-            $disk = 'public'; // Disk public sẽ sử dụng (được định nghĩa trong config/filesystems.php)
+            $disk = 's3'; // Disk S3 sẽ sử dụng (được định nghĩa trong config/filesystems.php)
 
             // Xác định tên file duy nhất
             $finalFilename = $originalFilename; // Bắt đầu với tên gốc
@@ -66,7 +66,8 @@ class UploadController extends Controller
 
             // Lưu file bằng storeAs với tên file mới
             $storedFilePath = $file->storeAs($directory, $finalFilename, $disk); // Trả về đường dẫn tương đối: 'uploads/ten_file_cuoi_cung.jpg'
-            $storedFilePaths[] = $storedFilePath; // Thêm đường dẫn file đã lưu vào array $storedFilePaths
+            $urlFilePath = Storage::disk($disk)->url($storedFilePath); // Trả về URL public của file
+            $storedFilePaths[] = $urlFilePath; // Lưu URL của từng file vào array $storedFilePath; // Thêm đường dẫn file đã lưu vào array $storedFilePaths
 
             // Tạo bản ghi mới trong table uploads của database
             Upload::create([
@@ -87,7 +88,12 @@ class UploadController extends Controller
     public function destroy(Upload $upload)
     {
         // Xoá file vật lý khỏi disk 'public' dựa vào đường dẫn lưu trong $upload->filename
-        Storage::disk('public')->delete($upload->filename);
+          // The disk used for storing was 's3'.
+        $disk = 's3';
+
+        if (Storage::disk($disk)->exists($upload->filename)) {
+            Storage::disk($disk)->delete($upload->filename);
+        }
 
         // Xoá bản ghi tương ứng trong database
         $upload->delete();
