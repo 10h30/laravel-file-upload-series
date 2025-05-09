@@ -53,7 +53,7 @@
                             <p class="text-sm text-gray-600">Original Filename:
                                 {{ session("original_filenames")[$index] }}
                             </p>
-                            <p class="text-sm text-gray-600">Stored Path: {{ $path }}</p>
+                            {{-- <p class="text-sm text-gray-600">Stored Path: {{ $path }}</p> --}}
                             <img src="{{ $path }}" alt="Uploaded Image {{ $index + 1 }}"
                                 class="mt-2 rounded max-w-full h-auto border">
                         </div>
@@ -70,7 +70,7 @@
                 <ul>
                     <li class="flex items-center justify-between mb-4">
                         <a class="flex items-center gap-4 py-2" href="{{ $upload->url }}" target="_blank">
-                            <img src="{{ $upload->url }}" alt="{{ $upload->original_filename }}" width="50" height="50">
+                            <img src="{{ $upload->thumbnail_url }}" alt="{{ $upload->original_filename }}" width="50" height="50">
                             <span class="text-sm text-gray-700 hover:text-blue-600">{{ $upload->original_filename }}</span>
                         </a>
                         <form action="{{ route("upload.destroy", $upload->id) }}" method="POST"

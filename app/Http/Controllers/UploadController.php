@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Upload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\ImageManager;
 
 class UploadController extends Controller
 {
@@ -39,6 +41,7 @@ class UploadController extends Controller
         $uploadedFiles = $request->file('files'); // Lấy array các đối tượng file đã upload
         $numberOfFiles = count($uploadedFiles); // Đếm số lượng file đã upload
 
+        $manager = new ImageManager(Driver::class);
 
         // Lặp qua từng file trong array $uploadedFiles
         foreach ($uploadedFiles as $file) {
@@ -64,15 +67,30 @@ class UploadController extends Controller
                 $counter++;
             }
 
-            // Lưu file bằng storeAs với tên file mới
-            $storedFilePath = $file->storeAs($directory, $finalFilename, $disk); // Trả về đường dẫn tương đối: 'uploads/ten_file_cuoi_cung.jpg'
-            $urlFilePath = Storage::disk($disk)->temporaryUrl($storedFilePath, now()->addMinutes(5)); // Trả về URL public của file
-            $storedFilePaths[] = $urlFilePath; // Lưu URL của từng file vào array $storedFilePath; // Thêm đường dẫn file đã lưu vào array $storedFilePaths
+            // Lưu file bằng storeAs với tên file mới và trả về đường dẫn tương đối: 'uploads/ten_file_cuoi_cung.jpg'
+            $storedFilePath = $file->storeAs($directory, $finalFilename, $disk);
+
+            // Tạo thumbnail bằng Intervention Image
+            $thumbnail = $manager->read($file->getRealPath())
+                ->resize(100, 100); // Resize to fit 100x100, maintaining aspect ratio
+
+            // Đường dẫn tương đối của file thumbnail: 'uploads/thumbnail-ten_file_cuoi_cung.jpg'
+            $thumbnailStoragePath = $directory . '/thumbnail-' . $finalFilename;
+
+            // Lưu thumbnail vào disk
+            Storage::disk($disk)->put($thumbnailStoragePath, $thumbnail->encode());
+
+            // Trả về Temporary URL của file
+            $urlFilePath = Storage::disk($disk)->temporaryUrl($thumbnailStoragePath, now()->addMinutes(5));
+
+            // Thêm đường dẫn file đã lưu vào array $storedFilePaths
+            $storedFilePaths[] = $urlFilePath;
 
             // Tạo bản ghi mới trong table uploads của database
             Upload::create([
                 'filename' => $storedFilePath,
                 'original_filename' => $originalFilename,
+                'thumbnail' => $thumbnailStoragePath,
             ]);
 
         }
@@ -93,6 +111,10 @@ class UploadController extends Controller
 
         if (Storage::disk($disk)->exists($upload->filename)) {
             Storage::disk($disk)->delete($upload->filename);
+        }
+
+        if (Storage::disk($disk)->exists($upload->thumbnail)) {
+            Storage::disk($disk)->delete($upload->thumbnail);
         }
 
         // Xoá bản ghi tương ứng trong database

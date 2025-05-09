@@ -12,6 +12,7 @@
 | 4    | Hiển thị và xoá các file đã upload     | [`part-4-manage-uploads`](https://github.com/10h30/laravel-file-upload-series/tree/part-4-manage-uploads) |
 | 5    | Upload file lên Amazon S3              | [`part-5-upload-to-s3`](https://github.com/10h30/laravel-file-upload-series/tree/part-5-upload-to-s3) |
 | 6    | Temporary URL & Upload lên MinIO       | [`part-6-s3-temporary-url-minio`](https://github.com/10h30/laravel-file-upload-series/tree/part-6-s3-temporary-url-minio) |
+| 7    | Create thumbnail with Intervetion Image   | [`part-7-thumbnail-intervention`](https://github.com/10h30/laravel-file-upload-series/tree/part-7-thumbnail-intervention) |
 |      |
 
 > 📖 Mỗi branch tương ứng với một phần trong series blog. Bạn có thể clone và chạy từng phần riêng biệt để dễ theo dõi.
