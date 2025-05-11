@@ -6,27 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload File</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
+        rel="stylesheet">
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-    @if ($errors->has("file"))
-        <div
-            class="container mx-auto mt-10 p-6 bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-md max-w-md">
-            {{ $errors->first("file") }}</div>
+    @if ($errors->any())
+        <div class="container mx-auto mt-10 p-6 bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-md max-w-md">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
     <div class="container mx-auto mt-10 p-6 bg-white rounded-lg shadow-md max-w-md">
         <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">Upload File</h1>
+
         <form action="{{ route("upload.store") }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             <div>
                 <label for="files" class="block text-sm font-medium text-gray-700 mb-1">Choose files</label>
-                <input type="file" name="files[]" id="files" multiple
-                    class="block w-full text-sm text-gray-500
-                              file:mr-4 file:py-2 file:px-4
-                              file:rounded-full file:border-0
-                              file:text-sm file:font-semibold
-                              file:bg-blue-50 file:text-blue-700
-                              hover:file:bg-blue-100" />
+                <input type="file" name="files[]" id="files" multiple data-max-files="5" />
             </div>
             <button type="submit"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -70,8 +73,10 @@
                 <ul>
                     <li class="flex items-center justify-between mb-4">
                         <a class="flex items-center gap-4 py-2" href="{{ $upload->url }}" target="_blank">
-                            <img src="{{ $upload->thumbnail_url }}" alt="{{ $upload->original_filename }}" width="50" height="50">
-                            <span class="text-sm text-gray-700 hover:text-blue-600">{{ $upload->original_filename }}</span>
+                            <img src="{{ $upload->thumbnail_url }}" alt="{{ $upload->original_filename }}"
+                                width="50" height="50">
+                            <span
+                                class="text-sm text-gray-700 hover:text-blue-600">{{ $upload->original_filename }}</span>
                         </a>
                         <form action="{{ route("upload.destroy", $upload->id) }}" method="POST"
                             style="display:inline;"
@@ -86,6 +91,39 @@
             @endforeach
         </div>
     @endif
+    <!-- FilePond JS from CDN -->
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js">
+    </script>
+    <script>
+        //FilePond.registerPlugin(FilePondPluginImagePreview);
+        // Register plugins
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginFileValidateSize,
+            FilePondPluginFileValidateType
+        );
+
+        const inputElement = document.querySelector('input[id="files"]');
+        FilePond.create(inputElement, {
+            allowMultiple: true,
+            maxFiles: 5,
+            acceptedFileTypes: ['image/*'],
+            maxFileSize: '100KB',
+            labelMaxFileSizeExceeded: 'The file is too big',
+            storeAsFile: true,
+            onwarning: (error, file, status) => {
+                console.warn('FilePond warning:', error, file, status);
+                alert('Warning: ' + error.main);
+            },
+            onerror: (error, file, status) => {
+                console.error('FilePond error:', error, file, status);
+                alert('Error: ' + error.main);
+            }
+        });
+    </script>
 
 </body>
 
