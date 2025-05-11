@@ -98,7 +98,6 @@
     <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js">
     </script>
     <script>
-        //FilePond.registerPlugin(FilePondPluginImagePreview);
         // Register plugins
         FilePond.registerPlugin(
             FilePondPluginImagePreview,
@@ -106,20 +105,35 @@
             FilePondPluginFileValidateType
         );
 
+        // Chọn input HTML có id là "files"
         const inputElement = document.querySelector('input[id="files"]');
+
+        // Khởi tạo FilePond trên input đó với các tùy chọn cấu hình
         FilePond.create(inputElement, {
+            // Cho phép chọn nhiều file cùng lúc
             allowMultiple: true,
+            // Số lượng tệp tối đa được phép tải lên là 5
             maxFiles: 5,
+            // Chỉ chấp nhận các loại tệp hình ảnh (ví dụ: .jpg, .png, .gif)
             acceptedFileTypes: ['image/*'],
+            // Kích thước tệp tối đa cho phép là 100KB
             maxFileSize: '100KB',
+            // Thông báo hiển thị khi tệp vượt quá kích thước tối đa
             labelMaxFileSizeExceeded: 'The file is too big',
+            // Gửi file lên server bằng phương pháp POST trực tiếp qua form.
             storeAsFile: true,
+            // Hàm được gọi khi có cảnh báo từ FilePond
             onwarning: (error, file, status) => {
+                // Ghi cảnh báo ra console của trình duyệt
                 console.warn('FilePond warning:', error, file, status);
+                // Hiển thị thông báo cảnh báo cho người dùng
                 alert('Warning: ' + error.main);
             },
+            // Hàm được gọi khi có lỗi nghiêm trọng từ FilePond
             onerror: (error, file, status) => {
+                // Ghi lỗi ra console của trình duyệt
                 console.error('FilePond error:', error, file, status);
+                // Hiển thị thông báo lỗi cho người dùng
                 alert('Error: ' + error.main);
             }
         });
