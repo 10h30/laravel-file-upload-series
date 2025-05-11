@@ -9,10 +9,14 @@
 </head>
 
 <body class="bg-gray-100 font-sans antialiased">
-    @if ($errors->has("file"))
-        <div
-            class="container mx-auto mt-10 p-6 bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-md max-w-md">
-            {{ $errors->first("file") }}</div>
+    @if ($errors->any())
+        <div class="container mx-auto mt-10 p-6 bg-red-100 border border-red-400 text-red-700 rounded-lg shadow-md max-w-md">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
     <div class="container mx-auto mt-10 p-6 bg-white rounded-lg shadow-md max-w-md">
         <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">Upload File</h1>
