@@ -12,8 +12,9 @@
 | 4    | Hiển thị và xoá các file đã upload     | [`part-4-manage-uploads`](https://github.com/10h30/laravel-file-upload-series/tree/part-4-manage-uploads) |
 | 5    | Upload file lên Amazon S3              | [`part-5-upload-to-s3`](https://github.com/10h30/laravel-file-upload-series/tree/part-5-upload-to-s3) |
 | 6    | Temporary URL & Upload lên MinIO       | [`part-6-s3-temporary-url-minio`](https://github.com/10h30/laravel-file-upload-series/tree/part-6-s3-temporary-url-minio) |
-| 7    | Create thumbnail with Intervetion Image   | [`part-7-thumbnail-intervention`](https://github.com/10h30/laravel-file-upload-series/tree/part-7-thumbnail-intervention) |
-| 8    | File Upload with Spatie Media Library   | [`part-8-spatie-media-library`](https://github.com/10h30/laravel-file-upload-series/tree/part-8-spatie-media-library) |
+| 7    | Tạo thumbnail với Intervention Image    | [`part-7-thumbnail-intervention`](https://github.com/10h30/laravel-file-upload-series/tree/part-7-thumbnail-intervention) |
+| 8    | Quản lý ảnh nâng cao với Spatie Media Library    | [`part-8-spatie-media-library`](https://github.com/10h30/laravel-file-upload-series/tree/part-8-spatie-media-library) |
+| 9    | Nâng cấp giao diện upload file với FilePond   | [`ppart-9-drag-drop-upload`](https://github.com/10h30/laravel-file-upload-series/tree/part-9-drag-drop-upload) |
 |      |
 
 
