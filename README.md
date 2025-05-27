@@ -1,61 +1,33 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📦 Laravel File Upload Series
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Đây là repo chứa mã nguồn minh hoạ cho chuỗi bài viết [**File Upload trong Laravel**](https://thuanbui.me/series/laravel-file-upload/) được chia sẻ tại blog cá nhân [thuanbui.me](https://thuanbui.me).
 
-## About Laravel
+👉 Code cho từng phần nằm ở **các branch riêng**:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Phần | Tiêu đề                                                                                          | Branch                                                                                                                    |
+| ---- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| 1    | [File Upload cơ bản trong Laravel](https://thuanbui.me/file-upload-laravel-phan-1/)              | [`part-1-basic-upload`](https://github.com/10h30/laravel-file-upload-series/tree/part-1-basic-upload)                     |
+| 2    | [Validation & Bảo mật khi upload](https://thuanbui.me/file-upload-laravel-phan-2/)               | [`part-2-validation-security`](https://github.com/10h30/laravel-file-upload-series/tree/part-2-validation-security)       |
+| 3    | [Upload cùng lúc nhiều file](https://thuanbui.me/file-upload-laravel-phan-3/)                    | [`part-3-multiple-file-upload`](https://github.com/10h30/laravel-file-upload-series/tree/part-3-multiple-file-upload)     |
+| 4    | [Hiển thị và xoá các file đã upload](https://thuanbui.me/file-upload-laravel-phan-4/)            | [`part-4-manage-uploads`](https://github.com/10h30/laravel-file-upload-series/tree/part-4-manage-uploads)                 |
+| 5    | [Upload file lên Amazon S3](https://thuanbui.me/file-upload-laravel-phan-5/)                     | [`part-5-upload-to-s3`](https://github.com/10h30/laravel-file-upload-series/tree/part-5-upload-to-s3)                     |
+| 6    | [Temporary URL & Upload lên MinIO](https://thuanbui.me/file-upload-laravel-phan-6/)              | [`part-6-s3-temporary-url-minio`](https://github.com/10h30/laravel-file-upload-series/tree/part-6-s3-temporary-url-minio) |
+| 7    | [Tạo thumbnail với Intervention Image](https://thuanbui.me/file-upload-laravel-phan-7/)          | [`part-7-thumbnail-intervention`](https://github.com/10h30/laravel-file-upload-series/tree/part-7-thumbnail-intervention) |
+| 8    | [Quản lý ảnh nâng cao với Spatie Media Library](https://thuanbui.me/file-upload-laravel-phan-8/) | [`part-8-spatie-media-library`](https://github.com/10h30/laravel-file-upload-series/tree/part-8-spatie-media-library)     |
+| 9    | [Nâng cấp giao diện upload file với FilePond](https://thuanbui.me/file-upload-laravel-phan-9/)   | [`part-9-drag-drop-upload`](https://github.com/10h30/laravel-file-upload-series/tree/part-9-drag-drop-upload)             |
+| 10   | [Upload file tự động với Livewire 3](https://thuanbui.me/file-upload-trong-laravel-phan-10/)     | [`part-10-livewire-upload`](https://github.com/10h30/laravel-file-upload-series/tree/part-10-livewire-upload)             |
+|      |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+> 📖 Mỗi branch tương ứng với một phần trong series blog. Bạn có thể clone và chạy từng phần riêng biệt để dễ theo dõi.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📬 Liên hệ
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Blog: [https://thuanbui.me](https://thuanbui.me)
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🪪 Giấy phép
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Mã nguồn được chia sẻ với giấy phép **MIT License** – bạn có thể sử dụng trong mục đích học tập hoặc cá nhân.
